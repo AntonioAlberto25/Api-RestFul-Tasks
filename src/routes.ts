@@ -8,12 +8,94 @@ import { CompletedTask } from './controllers/completed-task'
 import { ImportCsvTasks } from '../middlewares/import-csv'
 
 export async function TasksRoutes(app: FastifyInstance) {
-  app.post('/tasks', CreateUsers)
-  app.get('/tasks', GetTasks)
-  app.get('/tasks/:id', ShowOneTask)
-  app.delete('/tasks/:id', DeleteTask)
-  app.put('/tasks/:id', UpdateTask)
-  app.patch('/tasks/:id/completed', CompletedTask)
+  app.post(
+    '/tasks',
+    {
+      schema: {
+        tags: ['Tasks'],
+        description: 'Criando uma tarefa',
+        body: {
+          type: 'object',
+          properties: {
+            title: { type: 'string' },
+            description: { type: 'string' },
+          },
+        },
+        response: 201,
+      },
+    },
+    CreateUsers,
+  )
 
-  app.post('/tasks/csv', ImportCsvTasks)
+  app.get(
+    '/tasks',
+    {
+      schema: {
+        tags: ['Tasks'],
+        description: 'Buscando tarefas',
+        response: 200,
+      },
+    },
+    GetTasks,
+  )
+
+  app.get(
+    '/tasks/:id',
+    {
+      schema: {
+        tags: ['Tasks'],
+        description: 'Buscando uma tarefa',
+        response: 200,
+      },
+    },
+    ShowOneTask,
+  )
+
+  app.delete(
+    '/tasks/:id',
+    {
+      schema: {
+        tags: ['Tasks'],
+        description: 'Deletando uma tarefa',
+        response: 204,
+      },
+    },
+    DeleteTask,
+  )
+
+  app.put(
+    '/tasks/:id',
+    {
+      schema: {
+        tags: ['Tasks'],
+        description: 'Alterando uma tarefa',
+        response: 204,
+      },
+    },
+    UpdateTask,
+  )
+
+  app.patch(
+    '/tasks/:id/completed',
+    {
+      schema: {
+        tags: ['Tasks'],
+        description: 'Completando uma tarefa',
+        response: 204,
+      },
+    },
+    CompletedTask,
+  )
+
+  app.post(
+    '/tasks/csv',
+    {
+      schema: {
+        tags: ['CSV'],
+        description: 'Criando arquivo CSV',
+        response: 200,
+      },
+    },
+    ImportCsvTasks,
+  )
 }
