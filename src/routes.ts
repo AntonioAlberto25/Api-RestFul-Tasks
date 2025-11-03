@@ -92,8 +92,8 @@ export async function TasksRoutes(app: FastifyInstance) {
     {
       schema: {
         tags: ['CSV'],
-        description: 'Criando arquivo CSV',
-        response: 200,
+        description: 'Criando tarefas apartir de um arquivo CSV',
+        response: 201,
       },
     },
     ImportCsvTasks,
