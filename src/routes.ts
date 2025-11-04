@@ -1,4 +1,4 @@
-import { CreateUsers } from './controllers/create-tasks'
+import { CreateTask} from './controllers/create-tasks'
 import { FastifyInstance } from 'fastify'
 import { GetTasks } from './controllers/show-tasks'
 import { ShowOneTask } from './controllers/show-one-task'
@@ -13,27 +13,60 @@ export async function TasksRoutes(app: FastifyInstance) {
     {
       schema: {
         tags: ['Tasks'],
-        description: 'Criando uma tarefa',
+        description: 'Endpoint responsável por adicionar uma nota tarefa',
         body: {
           type: 'object',
           properties: {
-            title: { type: 'string' },
-            description: { type: 'string' },
+            title: { 
+              type: 'string', 
+              description: 'O título principal da tarefa',
+              example: 'Estudar Fastify' 
+            },
+            description: { 
+              type: 'string', 
+              description: 'Detalhes opcionais da tarefa',
+              example: 'Verificar a documentação do Swagger'
+            }
           },
         },
-        response: 201,
+        required: ['title'],
+        response: {
+          201:{
+            description: 'Tarefa criada com sucesso',
+            type: 'object',
+            properties: {
+            id: { type: 'uuid', example: 'a1b2c3d4' },
+            title: { type: 'string', example: 'Estudar Fastify' },
+            description: { type: 'string', example: 'Ler a documentação do Swagger e criar exemplos práticos' },
+          }
+          }
+        }
       },
     },
-    CreateUsers,
+    CreateTask,
   )
 
   app.get(
     '/tasks',
     {
       schema: {
+        summary: 'Listar todas as tarefas',
         tags: ['Tasks'],
-        description: 'Buscando tarefas',
-        response: 200,
+        description: 'Busca e retorna todas as tarefas cadastradas',
+        response: {
+          200:{
+            description: 'Lista de tarefas',
+            type: 'array',
+            items: {
+            type: 'object',
+            properties: {
+              id: { type: 'uuid', example: 'a1b2c3d4' },
+            title: { type: 'string', example: 'Estudar Fastify' },
+            description: { type: 'string', example: 'Ler a documentação do Swagger e criar exemplos práticos' },
+            }
+          }
+          }
+        }
       },
     },
     GetTasks,
@@ -90,10 +123,10 @@ export async function TasksRoutes(app: FastifyInstance) {
   app.post(
     '/tasks/csv',
     {
-      schema: {
-        tags: ['CSV'],
-        description: 'Criando tarefas apartir de um arquivo CSV',
-        response: 201,
+     schema: {
+      summary: 'Importa tarefas via arquivo CSV',
+      description: 'Faz o upload de um arquivo .csv para criação de tarefas em lote.',
+      tags: ['CSV'],
       },
     },
     ImportCsvTasks,
