@@ -35,7 +35,7 @@ export async function TasksRoutes(app: FastifyInstance) {
             description: 'Tarefa criada com sucesso',
             type: 'object',
             properties: {
-            id: { type: 'uuid', example: 'a1b2c3d4' },
+            id: { type: 'string', example: 'a1b2c3d4' },
             title: { type: 'string', example: 'Estudar Fastify' },
             description: { type: 'string', example: 'Ler a documentação do Swagger e criar exemplos práticos' },
           }
@@ -60,7 +60,7 @@ export async function TasksRoutes(app: FastifyInstance) {
             items: {
             type: 'object',
             properties: {
-              id: { type: 'uuid', example: 'a1b2c3d4' },
+              id: { type: 'string', example: 'a1b2c3d4' },
             title: { type: 'string', example: 'Estudar Fastify' },
             description: { type: 'string', example: 'Ler a documentação do Swagger e criar exemplos práticos' },
             }
