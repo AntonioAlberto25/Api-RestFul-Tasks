@@ -9,8 +9,15 @@ app.register(fastifySwagger, {
   openapi: {
     info: {
       title: 'API PUC',
+      description: 'Documentando API para projeto final API e WebServices',
       version: '1.0.0',
     },
+    servers: [
+      {
+        url: 'https://localhost:3333',
+        description: 'Servidor de Desenvolvimento'
+      },
+    ]
   },
 })
 
